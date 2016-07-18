@@ -1,0 +1,76 @@
+{# Navigation #}
+<header id="navbar" class="l-navbar" role="banner">
+  <div class="container-fluid l-container-fluid">
+    <div class="row">
+      <div class="l-navbar-logo">
+        <a class="logo text-hide" href="{{ front_page }}" title="{{ 'Home'|t }}"></a>
+      </div>
+      {% if page.navigation %}
+        <div class="l-navbar-menu">
+            {{ page.navigation }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</header>
+{% if page.featured %}
+<div class="l-featured container-fluid l-container-fluid" {{ inline_styling }}>
+  {{ page.featured }}
+</div>
+{% endif %}
+<div class="l-main-container">
+    <a id="main-content"></a>
+    <div class="container-fluid l-container-fluid">
+      <div class="row">
+        {# Content #}
+        {%
+          set content_classes = [
+            page.sidebar_right ? 'l-main-content col-sm-9',
+            page.sidebar_right is empty ? 'l-main-content col-sm-12'
+          ]
+
+        %}
+        {% if page.blogs and page.sidebar_right %}
+          {# Sidebar right #}
+          {% if page.sidebar_right %}
+            <div class="l-sidebar col-lg-3 col-lg-push-9 col-md-4 col-md-push-8">
+              {{ page.sidebar_right }}
+            </div>
+          {% endif %}
+          <div class="l-main-content col-lg-9 col-lg-pull-3 col-md-8 col-md-pull-4">
+            {{ messages }}
+            {% if tabs %}
+              {{ tabs }}
+            {% endif %}
+            {{ page.content }}
+          </div>
+        {% else %}
+          <div {{ content_attributes.addClass(content_classes) }}>
+            {{ messages }}
+            {% if tabs %}
+              {{ tabs }}
+            {% endif %}
+            {{ page.content }}
+          </div>
+          {# Sidebar right #}
+          {% if page.sidebar_right %}
+            <div class="l-sidebar col-sm-3">
+              {{ page.sidebar_right }}
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+</div>
+{# Content bottom #}
+{% if page.content_bottom %}
+  <div class="l-content-bottom container-fluid l-container-fluid">
+    {{ page.content_bottom }}
+  </div>
+{% endif %}
+{# Footer #}
+<footer class="l-footer">
+  <div class="container-fluid l-container-fluid">
+    {{ page.footer }}
+  </div>
+</footer>
